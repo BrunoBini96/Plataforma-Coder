@@ -12,7 +12,7 @@ def curso1(request,nombre1,camada1):
                          """)
 
 def inicio (request):
-    return HttpResponse("Vista inicio")
+    return render(request, "inicio.html")
 
 def lista_curso(request):
     lista = Curso.objects.all()
@@ -20,19 +20,18 @@ def lista_curso(request):
     return render(request, "lista_cursos.html", {"lista_cursos": lista})
 
 def Cursos2(request):
-    return HttpResponse("Vista cursos")
+    lista = Curso.objects.all()
+    return render(request, "cursos.html", {"lista_cursos" : lista})
 
 def Profesores2(request):
-    return HttpResponse("Vista Profesores")
+    return render(request,"profesores.html")
 
 
 def Estudiantes2(request):
-    return HttpResponse("Vista Estudiantes")
-
-
+    return render(request,"estudiantes.html")
 
 def Entregables2(request):
-    return HttpResponse("Vista Entregables")
+    return render(request,"entegables.html")
 
 
 

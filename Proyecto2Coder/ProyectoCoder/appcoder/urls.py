@@ -8,8 +8,8 @@ urlpatterns = [
     path("", inicio),
     path("agregar-curso/<nombre1>/<camada1>", curso1),
     path("lista-cursos", lista_curso),
-    path("Cursos", Cursos2),
-    path("profesores", Profesores2),
+    path("Cursos", Cursos2, name="Cursos"),
+    path("profesores", Profesores2, name="Profesores"),
     path("Entregables", Entregables2),
-    path("Estudiantes", Estudiantes2),
+    path("Estudiantes", Estudiantes2,name="Estudiantes"),
 ]
