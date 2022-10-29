@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import Curso
 from  django.http import HttpResponse
 # Create your views here.
@@ -33,6 +33,16 @@ def Estudiantes2(request):
 def Entregables2(request):
     return render(request,"entegables.html")
 
+def cursoFormulario(request):
+    
+    if request.method == 'POST':
+         curso = Curso(nombre=request.POST["curso"], camada=request.POST["camada"])
+         curso.save()
+         return redirect("Cursos")
+    else:
+        return render(request,"cursoFormulario.html")
+    
+        
 
 
 
