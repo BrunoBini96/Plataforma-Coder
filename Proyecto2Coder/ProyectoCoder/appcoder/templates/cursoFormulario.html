@@ -5,12 +5,11 @@
 {% block contenidoQueCambia %}
 <form action=" {% url 'CursoFormulario'  %} "method="POST">{% csrf_token %}
     
-    <p>Curso: <input type="text" name = "curso"/>  </p>
-    
-    <p>Camada: <input type="number" name ="camada"/> </p>
+    {{ mi_formulario.as_p }}
 
     <input type="submit" value ="Enviar"/>
 
 </form>
 
 {% endblock contenidoQueCambia %}
+

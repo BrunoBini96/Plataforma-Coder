@@ -1,3 +1,4 @@
+from .forms import CursoFormulario
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from .models import Curso
@@ -36,11 +37,16 @@ def Entregables2(request):
 def cursoFormulario(request):
     
     if request.method == 'POST':
-         curso = Curso(nombre=request.POST["curso"], camada=request.POST["camada"])
-         curso.save()
-         return redirect("Cursos")
+        
+        mi_formulario = CursoFormulario(request.POST)
+        if mi_formulario.is_valid():
+            data = mi_formulario.cleaned_data
+            curso = Curso(nombre=data['curso'], camada=data['camada'])
+            curso.save()
+            return redirect('Cursos')
     else:
-        return render(request,"cursoFormulario.html")
+        mi_formulario = CursoFormulario()
+    return render(request,"cursoFormulario.html", {'mi_formulario': mi_formulario})
     
         
 

@@ -3,16 +3,19 @@
 {% load static %}
 
 {% block contenidoQueCambia %}
-<h1>Cursos</h1>
+    <h1>Cursos</h1>
                 
-<h4>Bienvenido a la plataforma de coder, esto son los cursos que tenemos:</h4>
-<ul>
+    <h4>Bienvenido a la plataforma de coder, esto son los cursos que tenemos:</h4>
+    <ul>
         
-    {% for curso in lista_cursos %}
-        <li>
-            {{curso.nombre}} Camada: {{curso.camada}}
-        </li>
-    {% endfor %}
+        {% for curso in lista_cursos %}
+            <li>
+                {{curso.nombre}} Camada: {{curso.camada}}
+            </li>
+        {% endfor %}
         
-</ul>
+    </ul>
+    <a href = "{% url 'CursoFormulario'  %}">
+        Agregar Cursos 
+    </a>
 {% endblock contenidoQueCambia %}
