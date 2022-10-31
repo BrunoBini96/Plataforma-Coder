@@ -47,10 +47,20 @@ def cursoFormulario(request):
     else:
         mi_formulario = CursoFormulario()
     return render(request,"cursoFormulario.html", {'mi_formulario': mi_formulario})
+
+def busqueda_camada(request):
+    return render(request,'busqueda_camada.html')      
+
+
+def buscar(request):
+    camada_buscada = request.GET['camada']
     
-        
-
-
-
+    curso =  Curso.objects.get(camada = camada_buscada)
+    
+    return render(request, 'resultadoBusqueda.html', {'curso' : curso, 'camada' : camada_buscada})
+    
+    
+    
+    
 
     
