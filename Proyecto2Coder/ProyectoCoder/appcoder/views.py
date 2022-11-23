@@ -1,7 +1,7 @@
-from .forms import CursoFormulario
+from .forms import CursoFormulario, ProfesorFormulario
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from .models import Curso
+from .models import Curso, Profesor
 from  django.http import HttpResponse
 # Create your views here.
 
@@ -59,8 +59,31 @@ def buscar(request):
     
     return render(request, 'resultadoBusqueda.html', {'curso' : curso, 'camada' : camada_buscada})
     
+
+def listaCursos(request):
     
-    
+    cursos = Curso.objects.all()
+    return render(request, "leerCursos.html",{"cursos": cursos})
+
+
+def listaProfesores(request):
+    profesores = Profesor.objects.all
+    return render(request, 'leerProfesores.html', {'profesores': profesores} )
     
 
+def crea_profesor(request):
+    if request.method == 'POST':
+        
+        mi_formulario = ProfesorFormulario(request.POST)
+        if mi_formulario.is_valid():
+            data = mi_formulario.cleaned_data
+            profesor = Profesor(nombre=data['nombre'], apellido=data['apellido'],email=data['email'],profesion=data['profesion'])
+            profesor.save()
+            return redirect('ListaProfesores')
+    else:
+        mi_formulario = ProfesorFormulario()
+    return render(request,"profesorFormulario.html", {'mi_formulario': mi_formulario})
+    
+    
+            
     

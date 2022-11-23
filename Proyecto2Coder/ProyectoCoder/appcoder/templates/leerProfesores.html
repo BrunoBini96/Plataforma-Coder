@@ -1,0 +1,22 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+
+<h1>Lista de Profesores</h1>
+<ul>
+    
+    {% for profesor in profesores %}
+        <li>
+            {{profesor}}
+        </li>
+        
+    {% endfor %}
+        
+</ul>
+
+
+
+
+{% endblock contenidoQueCambia %}
