@@ -11,6 +11,16 @@
         <li>
             {{profesor}}
         </li>
+        <div>
+            <form action=" {% url 'EliminaProfesor' profesor.id  %} "method="POST">{% csrf_token %}
+    
+                <button>Eliminar </button>
+            
+            </form>
+            <button>
+                <a href="{% url 'EditarProfesor' profesor.id %}">Editar</a>
+            </button>
+        </div>
         
     {% endfor %}
         

@@ -83,7 +83,41 @@ def crea_profesor(request):
     else:
         mi_formulario = ProfesorFormulario()
     return render(request,"profesorFormulario.html", {'mi_formulario': mi_formulario})
+
+def eliminarProfesor(request,id):
     
+    if request.method == 'POST':
+        
+        profesor = Profesor.objects.get(id=id)
+        profesor.delete()
+        profesores=Profesor.objects.all()
+        return render(request,"leerProfesores.html",{"profesores": profesores})
+
+
+def editar_profesor(request,id):
+    profesor = Profesor.objects.get(id=id)
+        
+    if request.method == 'POST':
+        
+        mi_formulario = ProfesorFormulario(request.POST)
+        if mi_formulario.is_valid():
+            data = mi_formulario.cleaned_data
+            
+            profesor.nombre = data['nombre']
+            profesor.apellido = data['apellido']
+            profesor.email = data['email']
+            profesor.profesion = data['profesion']
+            profesor.save()
+            return redirect('ListaProfesores')
+    else:
+        mi_formulario = ProfesorFormulario(initial={"nombre": profesor.nombre,"apellido": profesor.apellido,"email":profesor.email,"profesion":profesor.profesion})
+    return render(request,"profesorFormulario.html", {'mi_formulario': mi_formulario})
+
+    
+   
+        
+    
+        
     
             
     
