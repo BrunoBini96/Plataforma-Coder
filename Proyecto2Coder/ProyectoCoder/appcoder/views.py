@@ -1,9 +1,14 @@
 from .forms import CursoFormulario, ProfesorFormulario
+from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.contrib.auth import authenticate,login,logout
 from .models import Curso, Profesor
 from  django.http import HttpResponse
 from django.views.generic import ListView,DeleteView,CreateView,UpdateView,DetailView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.admin.views.decorators import staff_member_required
 # Create your views here.
 
 def curso1(request,nombre1,camada1):
@@ -21,10 +26,12 @@ def lista_curso(request):
     
     return render(request, "lista_cursos.html", {"lista_cursos": lista})
 
+@login_required
 def Cursos2(request):
     lista = Curso.objects.all()
     return render(request, "cursos.html", {"lista_cursos" : lista})
 
+@staff_member_required(login_url="/app-coder/login")
 def Profesores2(request):
     return render(request,"profesores.html")
 
@@ -115,7 +122,7 @@ def editar_profesor(request,id):
     return render(request,"editarProfesor.html", {'mi_formulario': mi_formulario, 'id':profesor.id})
 
     
-class CursoLista(ListView):
+class CursoLista(LoginRequiredMixin,ListView):
     
     model = Curso
     
@@ -159,8 +166,52 @@ class CursoDelete(DeleteView):
     
     success_url = '/app-coder/'
 
+def login2(request):
 
+    if request.method == 'POST':
         
+        miFormulario = AuthenticationForm(request, data=request.POST)
+        if miFormulario.is_valid():
+            data = miFormulario.cleaned_data
+            usuario = data["username"]
+            psw = data["password"]
+            
+            user = authenticate(username=usuario,password=psw)
+            
+            if user:
+                login(request,user)
+                
+                return render(request,"inicio.html", {'mensaje': f'Bienvenido {usuario}'})
+            else:
+                return render(request,"inicio.html", {'mensaje': f'Error datos incorrectos'})
+        else:
+            return render(request,"inicio.html", {'mensaje': f'Formulario Invalido'})
+    
+    else:
+        miFormulario = AuthenticationForm()
+    return render(request,"login.html", {"miFormulario": miFormulario})
+   
+    
+def register(request):
+
+    if request.method == 'POST':
+        
+        miFormulario = UserCreationForm(request.POST)
+        if miFormulario.is_valid():
+            username = miFormulario.cleaned_data["username"]
+            miFormulario.save()
+            return render(request, "inicio.html", {"mensaje": f'Usuario {username} creado con exito'})
+        else:
+            return render(request, "inicio.html", {"mensaje": f'No se pudo crear el usuario'})
+
+    else:
+        miFormulario = UserCreationForm()
+    return render(request,"registro.html", {"miFormulario": miFormulario})
+
+    
+
+
+           
     
             
     
