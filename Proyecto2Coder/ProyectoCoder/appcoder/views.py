@@ -3,7 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate,login,logout
-from .models import Curso, Profesor
+from .models import Curso, Profesor,Avatar
 from  django.http import HttpResponse
 from django.views.generic import ListView,DeleteView,CreateView,UpdateView,DetailView
 from django.contrib.auth.decorators import login_required
@@ -19,7 +19,9 @@ def curso1(request,nombre1,camada1):
                          """)
 
 def inicio (request):
-    return render(request, "inicio.html")
+    avatar = Avatar.objects.get(user=request.user)
+    
+    return render(request, "inicio.html", {"url" : avatar.imagen.url})
 
 def lista_curso(request):
     lista = Curso.objects.all()
