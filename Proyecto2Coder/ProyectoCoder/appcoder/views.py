@@ -1,4 +1,4 @@
-from .forms import CursoFormulario, ProfesorFormulario
+from .forms import CursoFormulario, ProfesorFormulario,EditarUsuario
 from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -208,7 +208,29 @@ def register(request):
         miFormulario = UserCreationForm()
     return render(request,"registro.html", {"miFormulario": miFormulario})
 
+
+def editar_perfil(request):
+    usuario = request.user
     
+
+    if request.method == 'POST':
+        
+        miFormulario = EditarUsuario(request.POST)
+        
+        if miFormulario.is_valid():
+            data = miFormulario.cleaned_data
+            usuario.first_name = data['first_name']
+            usuario.last_name = data['last_name']
+            usuario.email_name = data['email']
+            usuario.save()
+            
+            return render(request,"inicio.html", {'mensaje': f'Formulario Cargado'})
+        return render (request, "inicio.html", {"mensaje":"Contraseña no coinciden"})
+    
+    else:
+        miFormulario = EditarUsuario(instance=request.user)
+    return render(request,"editarPerfil.html", {"miFormulario": miFormulario})    
+   
 
 
            

@@ -2,7 +2,7 @@ from django.urls import path
 from django.contrib.auth.views import  LogoutView
 
 from appcoder.views import curso1,inicio, listaProfesores,crea_profesor,eliminarProfesor,editar_profesor,CursoLista,CursoDetail,CursoCreate,CursoDelete,CursoUpdate
-from appcoder.views import lista_curso,Cursos2,Profesores2,Entregables2,Estudiantes2,cursoFormulario,busqueda_camada,buscar,listaCursos,login2,register
+from appcoder.views import *
 
 
 urlpatterns = [
@@ -29,5 +29,7 @@ urlpatterns = [
     path('login/', login2, name = "Login"),
     path('registrar/', register , name = "Registrar"),
     path('logout/', LogoutView.as_view(template_name = "logout.html") , name = "Logout"),
+    path('editar-perfil/', editar_perfil , name = "EditarPerfil"),
 ]
+
 
